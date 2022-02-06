@@ -1,0 +1,227 @@
+@mixin wh ($width, $height) {
+  display: block;
+  width: $width;
+  height: $height;
+}
+// 中距居中
+@mixin mid-distance($width) {
+  width: $width;
+  margin: 0 auto;
+}
+// 盒子居中
+@mixin box-center($width,$height) {
+  width: $width;
+  height: $height;
+  margin: 0 auto;
+}
+// 设置文本相关
+@mixin text($fontSize,$color,$alignment:left,$lineHeight:$fontSize,$fontWeight:false){
+  font-size: $fontSize;
+  color: $color;
+  @if($fontWeight){
+      font-weight: $fontWeight;
+  }
+  line-height: $lineHeight;
+  text-align: $alignment;
+}
+// 设置圆角边框
+@mixin radius($w,$h,$borderRadius:50%,$bgColor:false) {
+  width: $w;
+  height: $h;
+  border-radius: $borderRadius;
+  @if($bgColor){
+      background-color: $bgColor;
+  }
+ 
+}
+@mixin flex-variant($display, $direction: false, $align: false, $justify: false, $wrap: false) {
+  display: $display;
+
+  @if $direction {
+    flex-direction: $direction;
+  }
+
+  @if $align {
+    align-items: $align;
+  }
+
+  @if $justify {
+    justify-content: $justify;
+  }
+
+  @if $wrap {
+    flex-wrap: $wrap;
+  }
+
+  // fix
+  & > * {
+    min-width: 0;
+  }
+}
+
+@mixin flex($direction: false, $align: false, $justify: false, $wrap: false) {
+  @include flex-variant(flex, $direction: $direction, $align: $align, $justify: $justify, $wrap: $wrap);
+}
+
+//  垂直居中 
+@mixin vertical_center($type){
+  position: $type;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+// 定位
+@mixin position($type,$top:false,$right:false,$bottom:false,$left:false){
+  position: $type;
+  @if($top){
+    top: $top;
+  }
+  @if($bottom) {
+    bottom: $bottom;
+  }
+  @if($left){
+      left: $left;
+  }@else if($right) {
+      right: $right;
+  }
+}
+// 绝对定位垂直居中
+@mixin absolute($width,$height,$right:false,$left:false){
+  position: absolute;
+  top: 50%;
+  @if($left){
+      left: $left;
+  }@else if($right) {
+      right: $right;
+  }
+  width: $width;
+  height: $height;
+  transform: translateY(-50%);
+  // margin-top: -($height / 2);
+}
+
+@mixin centerer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+// 一行显示
+@mixin ellipsis($rowCount: 1) {
+	@if $rowCount <=1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $rowCount;
+    -webkit-box-orient: vertical;
+  }
+}
+
+@mixin border-1px ($direction, $color: $color-border-line) {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    background: $color;
+    @if $direction == left {
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      transform: scaleX(0.5);
+      transform-origin: left 0;
+    }
+    @if $direction == right {
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      transform: scaleX(0.5);
+      transform-origin: right 0;
+    }
+    @if $direction == bottom {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform: scaleY(0.5);
+      transform-origin: 0 bottom;
+    }
+    @if $direction == top {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform: scaleY(0.5);
+      transform-origin: 0 top;
+    }
+  }
+}
+
+@mixin gray () {
+  -webkit-filter: grayscale(100%); /* webkit */
+  -moz-filter: grayscale(100%); /*firefox*/
+  -ms-filter: grayscale(100%); /*ie9*/
+  -o-filter: grayscale(100%); /*opera*/
+  filter: grayscale(100%);
+  filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); 
+  filter:gray; /*ie9- */
+}
+
+@mixin triangle($size: 5px, $color: rgba(0, 0, 0, 0.6), $dir: bottom) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+
+  @if (bottom==$dir) {
+    border-width: $size $size 0 $size;
+    border-color: $color transparent transparent transparent;
+  } @else if (top==$dir) {
+    border-width: 0 $size $size $size;
+    border-color: transparent transparent $color transparent;
+  } @else if (right==$dir) {
+    border-width: $size 0 $size $size;
+    border-color: transparent transparent transparent $color;
+  } @else if (left==$dir) {
+    border-width: $size $size $size 0;
+    border-color: transparent $color transparent transparent;
+  }
+}
+
+//箭头
+@mixin arrow($width,$size:1px, $color:#000, $dir:bottom){
+  display: inline-block;
+  width: $width;
+  height: $width;
+  border-width:$size;
+  border-color:$color;
+  transform: rotate(45deg);
+  cursor: pointer;
+  @if $dir == top {
+    border-style: solid none none solid;
+  } @else if $dir == bottom {
+      border-style: none solid solid none;
+  } @else if $dir == right {
+      border-style: solid solid none none;
+  } @else if $dir == left {
+      border-style: none none solid solid;
+  }
+}
+
+// 清除浮动
+@mixin clearfix {
+  *zoom: 1;
+  &:after {
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+}
